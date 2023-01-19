@@ -1,0 +1,48 @@
+table {
+    font-size: 15px;
+    color: white;
+    font-family: Arial;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding:5px;
+}
+
+th div {
+    height: 25px;
+    overflow: hidden;
+}
+
+td div {
+    height: 50px;
+    overflow: hidden;
+}
+
+img {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* unvisited link */
+a:link {
+    color: white;
+}
+
+/* visited link */
+a:visited {
+    color: white;
+}
+
+/* mouse over link */
+a:hover {
+    color: rgb(155, 155, 155);
+}
+
+/* selected link */
+a:active {
+    color: red;
+}
