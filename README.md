@@ -4,18 +4,28 @@
 
 ## Idea
 
-The main idea comes from a great tool called [Zik Analytics](https://www.zikanalytics.com/Home/AliExpressMarketResearch). This demo shows a comparison of Walmart and eBay products to determine profit. The user selects a product and a place of sale, and the program finds the same product in another place and calculates the profit.
+The main idea comes from a tool called [Zik Analytics](https://www.zikanalytics.com/), which used by dropshippers. 
 
-There are two main fields on the demo. The first is the search field in which you need to conduct a query or a specific product. The second field is responsible for the place where the user wants to sell this product. In addition to the main fields, there are optional ones. Using one of the sliders, you can select the number of products to search for. And with another slider, you can independently specify the percentage of uniqueness that is needed to compare product names.
+This demo shows a comparison between Walmart and eBay products to determine profit. The user selects a product and a place of sale, and the program finds the same product in another place and calculates the profit. 
+ 
+There are two main fields on the demo:
+- The first is the search field in which you need to conduct a query or a specific product. 
+- The second field is responsible for the place where the user wants to sell this product. 
 
+In addition to the main fields, there are optional ones: 
+- number of products to search slider. 
+- percentage of uniqueness slider that uses to compare product names. 
+ 
 As a result, the user receives a table with data such as title, link, thumbnail and price for each product on Walmart and eBay and profit. There is also an option to save the result in JSON or CSV format.
+
+📌Note: Use the dark Streamlit theme to view the table normally.
 
 <details>
 <summary>Things to improve</summary>
 <ol>
 <li>Asynchronous data retrieval.</li>
-<li>Add other places for sale.</li>
-<li>Write a blog post about this demo.</li>
+<li>Add other places for sale (Home Depot).</li>
+<li>Add a table display for the light Streamlit theme.</li>
 <ol>
 </details> 
 
