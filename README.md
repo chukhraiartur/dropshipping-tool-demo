@@ -1,4 +1,4 @@
-# Dropshipping Tool Demo
+<h1 align="center">Dropshipping Tool Demo 💸</h1>
 
 <p align="center";><a href="https://dropshipping-tool.streamlit.app/">Demonstration of dropshipping tool on Walmart and eBay</a></p>
 
