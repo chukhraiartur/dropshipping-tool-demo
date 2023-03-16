@@ -5,7 +5,7 @@ import pandas as pd
 import time, os, Levenshtein
 
 
-def get_walmart_results(query: str):
+def get_walmart_results(query: str) -> list:
     params = {
         'api_key': os.getenv('SERPAPI_API_KEY'),    # https://serpapi.com/manage-api-key
         'engine': 'walmart',                        # search engine
@@ -18,7 +18,7 @@ def get_walmart_results(query: str):
     return results.get('organic_results', [])
 
 
-def get_ebay_results(query: str):
+def get_ebay_results(query: str) -> list:
     params = {
         'api_key': os.getenv('SERPAPI_API_KEY'),    # https://serpapi.com/manage-api-key
         'engine': 'ebay',                           # search engine
@@ -32,16 +32,16 @@ def get_ebay_results(query: str):
     return results.get('organic_results', [])
 
 
-def compare_walmart_with_ebay(query: str, number_of_products: int, percentage_of_uniqueness: float):
+def compare_walmart_with_ebay(query: str, number_of_products: int, percentage_of_uniqueness: float) -> list:
     data = []
 
     walmart_results = get_walmart_results(query)
 
     for walmart_result in walmart_results[:number_of_products]:
-        ebay_results = get_ebay_results(walmart_result['title'])
+        ebay_results = get_ebay_results(walmart_result.get('title'))
 
         for ebay_result in ebay_results:
-            if Levenshtein.ratio(walmart_result['title'], ebay_result['title']) < percentage_of_uniqueness:
+            if Levenshtein.ratio(walmart_result.get('title'), ebay_result.get('title')) < percentage_of_uniqueness:
                 continue
 
             walmart_price = walmart_result.get('primary_offer', {}).get('offer_price')
@@ -57,15 +57,15 @@ def compare_walmart_with_ebay(query: str, number_of_products: int, percentage_of
 
             data.append({
                 'Walmart': {
-                    'thumbnail': walmart_result['thumbnail'],
-                    'title': walmart_result['title'],
-                    'link': walmart_result['product_page_url'],
+                    'thumbnail': walmart_result.get('thumbnail'),
+                    'title': walmart_result.get('title'),
+                    'link': walmart_result.get('product_page_url'),
                     'price': walmart_price
                 },
                 'eBay': {
-                    'thumbnail': ebay_result['thumbnail'],
-                    'title': ebay_result['title'],
-                    'link': ebay_result['link'],
+                    'thumbnail': ebay_result.get('thumbnail'),
+                    'title': ebay_result.get('title'),
+                    'link': ebay_result.get('link'),
                     'price': ebay_price
                 },
                 'Profit': profit
@@ -74,16 +74,16 @@ def compare_walmart_with_ebay(query: str, number_of_products: int, percentage_of
     return data
 
 
-def compare_ebay_with_walmart(query: str, number_of_products: int, percentage_of_uniqueness: float):
+def compare_ebay_with_walmart(query: str, number_of_products: int, percentage_of_uniqueness: float) -> list:
     data = []
 
     ebay_results = get_ebay_results(query)
 
     for ebay_result in ebay_results[:number_of_products]:
-        walmart_results = get_walmart_results(ebay_result['title'])
+        walmart_results = get_walmart_results(ebay_result.get('title'))
 
         for walmart_result in walmart_results:
-            if Levenshtein.ratio(ebay_result['title'], walmart_result['title']) < percentage_of_uniqueness:
+            if Levenshtein.ratio(ebay_result.get('title'), walmart_result.get('title')) < percentage_of_uniqueness:
                 continue
 
             ebay_price = ebay_result.get('price', {}).get('extracted')
@@ -99,15 +99,15 @@ def compare_ebay_with_walmart(query: str, number_of_products: int, percentage_of
 
             data.append({
                 'eBay': {
-                    'thumbnail': ebay_result['thumbnail'],
-                    'title': ebay_result['title'],
-                    'link': ebay_result['link'],
+                    'thumbnail': ebay_result.get('thumbnail'),
+                    'title': ebay_result.get('title'),
+                    'link': ebay_result.get('link'),
                     'price': ebay_price
                 },
                 'Walmart': {
-                    'thumbnail': walmart_result['thumbnail'],
-                    'title': walmart_result['title'],
-                    'link': walmart_result['product_page_url'],
+                    'thumbnail': walmart_result.get('thumbnail'),
+                    'title': walmart_result.get('title'),
+                    'link': walmart_result.get('product_page_url'),
                     'price': walmart_price
                 },
                 'Profit': profit
@@ -123,7 +123,7 @@ def create_table(data: list, where_to_sell: str):
     products = ''
     
     for product in data:
-        profit_color = 'lime' if product['Profit'] >= 0 else 'red'
+        profit_color = 'lime' if product.get('Profit') >= 0 else 'red'
 
         if where_to_sell == 'Walmart':
             products += f'''
@@ -184,7 +184,7 @@ def save_to_csv(data: list):
     csv_file = pd.DataFrame(data=data).to_csv(index=False)
 
     st.download_button(
-        label="Download CSV",
+        label='Download CSV',
         file_name='comparison-results.csv',
         mime='text/csv',
         data=csv_file
